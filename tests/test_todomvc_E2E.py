@@ -1,19 +1,23 @@
+from selene.support.shared import browser
+
 from todomvc_tests.pages import todomvc
 
 
 def test_todos_management():
-    todomvc.visit()
-    todomvc.is_all_modules_load()
+    browser.config.timeout = 7
+    todomvc.open()
 
     todomvc.add('a', 'b', 'c')
-    todomvc.is_list_match('a', 'b', 'c')
+    todomvc.list_should_match('a', 'b', 'c')
 
-    todomvc.edit('a', ' edited')
-    todomvc.complete('a edited')
+    todomvc.edit('a', 'a edited')
+
+    todomvc.toggle('a edited')
+
     todomvc.clear_completed()
-    todomvc.is_list_match('b', 'c')
+    todomvc.list_should_match('b', 'c')
 
-    todomvc.cancel_edit('b', ' edited')
+    todomvc.cancel_edit('b', 'b edited')
+
     todomvc.delete('b')
-    todomvc.is_list_match('c')
-
+    todomvc.list_should_match('c')
