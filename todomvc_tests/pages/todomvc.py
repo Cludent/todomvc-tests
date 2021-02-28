@@ -2,7 +2,7 @@ from selene import command
 from selene.support.conditions import have
 from selene.support.shared import browser
 
-todos = '#todo-list>li'
+todos = browser.all('#todo-list>li')
 
 
 def open():
@@ -16,22 +16,18 @@ def add(*names):
         browser.element('#new-todo').type(todo_name).press_enter()
 
 
-def _find(name):
-    return browser.all(todos).element_by(have.exact_text(name))
-
-
 def edit(name, new_name):
-    _start_editing(name, new_name).press_enter()
+    start_editing(name, new_name).press_enter()
 
 
-def _start_editing(name, new_name):
-    _find(name).double_click()
-    return browser.element('.editing').element('.edit'). \
+def start_editing(name, new_name):
+    todos.element_by(have.exact_text(name)).double_click()
+    return todos.element_by(have.css_class('editing')).element('.edit'). \
         perform(command.js.set_value(new_name))
 
 
 def toggle(name):
-    _find(name).element('.toggle').click()
+    todos.element_by(have.exact_text(name)).element('.toggle').click()
 
 
 def clear_completed():
@@ -39,12 +35,12 @@ def clear_completed():
 
 
 def cancel_edit(name, new_name):
-    _start_editing(name, new_name).press_escape()
+    start_editing(name, new_name).press_escape()
 
 
 def delete(name):
-    _find(name).hover().element('.destroy').click()
+    todos.element_by(have.exact_text(name)).hover().element('.destroy').click()
 
 
-def list_should_match(*names):
-    browser.all(todos).should(have.exact_texts(*names))
+def list_should_be(*names):
+    todos.should(have.exact_texts(*names))

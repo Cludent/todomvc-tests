@@ -8,16 +8,16 @@ def test_todos_management():
     todomvc.open()
 
     todomvc.add('a', 'b', 'c')
-    todomvc.list_should_match('a', 'b', 'c')
+    todomvc.list_should_be('a', 'b', 'c')
 
     todomvc.edit('a', 'a edited')
 
     todomvc.toggle('a edited')
 
     todomvc.clear_completed()
-    todomvc.list_should_match('b', 'c')
+    todomvc.list_should_be('b', 'c')
 
     todomvc.cancel_edit('b', 'b edited')
 
     todomvc.delete('b')
-    todomvc.list_should_match('c')
+    todomvc.list_should_be('c')
