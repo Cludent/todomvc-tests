@@ -44,3 +44,26 @@ def delete(name):
 
 def list_should_be(*names):
     todos.should(have.exact_texts(*names))
+
+
+def set_filter():
+    # browser.all('#filters>li').element_by(have.exact_text('All')).should(have.)
+    browser.element('#filters>li .selected').click()
+    # browser.all('#filters').element_by(have.exact_text('All')).click()
+    # browser.all('#filters').element_by(have.css_class('selected')).click()
+
+
+def items_left_should_be(count):
+    browser.element('#todo-count>strong').should(have.exact_text(str(count)))
+
+
+def active_nums_should_be(count):
+    browser.all('#todo-list>li').filtered_by(have.css_class('active')).should(have.size(count))
+
+
+def completed_nums_should_be(count):
+    browser.all('#todo-list>li').filtered_by(have.css_class('completed')).should(have.size(count))
+
+
+def toggle_all():
+    browser.element('#toggle-all').click()
