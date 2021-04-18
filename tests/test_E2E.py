@@ -4,20 +4,19 @@ from todomvc_tests.pages import todomvc
 
 
 def test_todos_management():
-    browser.config.timeout = 7
-    todomvc.open()
+    todomvc.open('https://todomvc4tasj.herokuapp.com')
 
     todomvc.add('a', 'b', 'c')
-    todomvc.list_should_be('a', 'b', 'c')
+    todomvc.should_have_list('a', 'b', 'c')
 
-    todomvc.edit('a', 'a edited')
+    todomvc.edit_by_enter('a', 'a edited')
 
     todomvc.toggle('a edited')
 
     todomvc.clear_completed()
-    todomvc.list_should_be('b', 'c')
+    todomvc.should_have_list('b', 'c')
 
     todomvc.cancel_edit('b', 'b edited')
 
     todomvc.delete('b')
-    todomvc.list_should_be('c')
+    todomvc.should_have_list('c')
