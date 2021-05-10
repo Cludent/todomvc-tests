@@ -1,22 +1,22 @@
-from selene import command
 from selene.support.conditions import have, be
 from selene.support.shared import browser
-'''
-suppositions:
-- method 'open()' has an 'url' parameter for compatibility with E2E test'
-'''
 
 
 class TodoMvcPage:
+    base_url = 'https://todomvc4tasj.herokuapp.com'
+
     def __init__(self):
         self._todos = browser.all('#todo-list>li')
 
-    def open(self, url='https://todomvc4tasj.herokuapp.com/#/'):
-        browser.open(url)
-        browser.should(have.js_returned(
-            True,
-            'return Object.keys(require.s.contexts._.defined).length === 39'))
+    def open(self, relative_url='/'):
+        browser.open(TodoMvcPage.base_url + relative_url)
+        app_loaded_require_js = 'return Object.keys(' \
+                                'require.s.contexts._.defined).length === 39'
+        browser.should(have.js_returned(True, app_loaded_require_js))
         return self
+
+    def open_at_all(self):
+        return self.open('/#/')
 
     def add(self, *names):
         for todo_name in names:
@@ -39,7 +39,7 @@ class TodoMvcPage:
     def _start_editing(self, name, new_name):
         self._todos.element_by(have.exact_text(name)).double_click()
         return self._todos.element_by(have.css_class('editing'))\
-            .element('.edit').perform(command.js.set_value(new_name))
+            .element('.edit').with_(set_value_by_js=True).set_value(new_name)
 
     def cancel_edit(self, name, new_name):
         self._start_editing(name, new_name).press_escape()

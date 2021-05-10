@@ -1,10 +1,8 @@
-from selene.support.shared import browser
-
 from todomvc_tests.pages import todomvc
 
 
 def test_todos_management():
-    todomvc.open('https://todomvc4tasj.herokuapp.com')
+    todomvc.open()
 
     todomvc.add('a', 'b', 'c')
     todomvc.should_have_list('a', 'b', 'c')

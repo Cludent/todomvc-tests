@@ -1,6 +1,3 @@
-from selene.support.conditions import have
-from selene.support.shared import browser
-
 from todomvc_tests.pages import todomvc
 '''
 suppositions:
@@ -14,7 +11,7 @@ changing focus by clicking outside will not work, or vice versa
 
 
 def test_add_first():
-    todomvc.open()
+    todomvc.open_at_all()
 
     # WHEN nothing
     todomvc.add()
@@ -30,7 +27,7 @@ def test_add_first():
 
 
 def test_add_many():
-    todomvc.open()
+    todomvc.open_at_all()
 
     todomvc.add('a', 'b', 'c')
 
@@ -39,7 +36,7 @@ def test_add_many():
 
 
 def test_edit_by_enter():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.edit_by_enter('b', 'b edited')
 
@@ -48,7 +45,7 @@ def test_edit_by_enter():
 
 
 def test_edit_by_click_outside():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.edit_by_click_outside('b', 'b edited')
 
@@ -57,7 +54,7 @@ def test_edit_by_click_outside():
 
 
 def test_edit_by_tab():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.edit_by_tab('b', 'b edited')
 
@@ -66,7 +63,7 @@ def test_edit_by_tab():
 
 
 def test_cancel_edit_by_esc():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.cancel_edit('b', 'b edited')
 
@@ -75,7 +72,7 @@ def test_cancel_edit_by_esc():
 
 
 def test_delete_by_edit_to_blank():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.edit_by_enter('b', '')
 
@@ -84,7 +81,7 @@ def test_delete_by_edit_to_blank():
 
 
 def test_complete():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')
 
     todomvc.toggle('b')
 
@@ -94,7 +91,8 @@ def test_complete():
 
 
 def test_complete_all():
-    todomvc.open().add('a', 'b', 'c')
+    todomvc.open_at_all().add('a', 'b', 'c')\
+        .toggle('b')
 
     todomvc.toggle_all()
 
@@ -104,7 +102,7 @@ def test_complete_all():
 
 
 def test_clear_completed():
-    todomvc.open().add('a', 'b', 'c', 'd')\
+    todomvc.open_at_all().add('a', 'b', 'c', 'd')\
         .toggle('b')\
         .toggle('c')
 
@@ -115,7 +113,7 @@ def test_clear_completed():
 
 
 def test_activate():
-    todomvc.open().add('a', 'b', 'c')\
+    todomvc.open_at_all().add('a', 'b', 'c')\
         .toggle('b')
 
     todomvc.toggle('b')
@@ -126,7 +124,7 @@ def test_activate():
 
 
 def test_activate_all():
-    todomvc.open().add('a', 'b', 'c')\
+    todomvc.open_at_all().add('a', 'b', 'c')\
         .toggle_all()
 
     todomvc.toggle_all()
@@ -137,7 +135,7 @@ def test_activate_all():
 
 
 def test_delete():
-    todomvc.open()
+    todomvc.open_at_all()
 
     # delete one
     todomvc.add('a')\
