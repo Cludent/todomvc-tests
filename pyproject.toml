@@ -7,9 +7,13 @@ authors = ["Cludent <dimetrij@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 selene = {version = "^1.0.2", allow-prereleases = true}
+pydantic = "^1.8.2"
+python-dotenv = "^0.17.1"
+pytest = "^6.2.4"
+pytest-xdist = "^2.3.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.2.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
