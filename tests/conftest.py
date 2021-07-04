@@ -6,11 +6,12 @@ import config
 
 @pytest.fixture(scope='function', autouse=True)
 def browser_management():
+    browser.config.browser_name = config.settings.browser_name
+    browser.config.timeout = config.settings.browser_config_timeout
     driver = _set_custom_driver(config.settings)
     if driver:
         browser.config.driver = driver
-    else:
-        browser.config.browser_name = config.settings.browser_name
+
     yield
     if config.settings.browser_quit_after_each_test:
         browser.quit()
@@ -39,12 +40,12 @@ def _set_custom_driver(settings: config.Settings) -> webdriver:
         driver = {
             'chrome': lambda: webdriver.Chrome(
                 executable_path=ChromeDriverManager().install(),
-                options=options
+                options=options,
             ),
             'firefox': lambda: webdriver.Firefox(
                 executable_path=GeckoDriverManager().install(),
-                options=options
-            )
+                options=options,
+            ),
         }[settings.browser_name]()
 
     if settings.browser_window_maximize:
@@ -54,5 +55,4 @@ def _set_custom_driver(settings: config.Settings) -> webdriver:
             width=settings.browser_window_width,
             height=settings.browser_window_height
         )
-
     return driver
